@@ -11,4 +11,8 @@ public interface PictureService {
     Optional<byte[]> getPictureDataById(long id);
 
     PictureData createPictureData(byte[] picture);
+
+    // TODO перенести сюда функционал получения списка картинок
+
+    // TODO перенести сюда функционал для удаления картинок
 }

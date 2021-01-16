@@ -12,7 +12,7 @@ import ru.mrSlyRedFox.persist.repo.PictureRepository;
 
 
 @Service
-//@ConditionalOnProperty(name = "picture.storage.type", havingValue = "database")
+@ConditionalOnProperty(name = "picture.storage.type", havingValue = "database")
 public class PictureServiceBlobImpl implements PictureService {
 
     private final PictureRepository repository;
@@ -26,6 +26,7 @@ public class PictureServiceBlobImpl implements PictureService {
     public Optional<String> getPictureContentTypeById(long id) {
         return repository.findById(id)
                 // TODO перенести проверку на уровень JPQL запроса
+                .filter(pic -> pic.getPictureData().getData() != null)
                 .map(Picture::getContentType);
     }
 
@@ -33,6 +34,7 @@ public class PictureServiceBlobImpl implements PictureService {
     public Optional<byte[]> getPictureDataById(long id) {
         return repository.findById(id)
                 // TODO перенести проверку на уровень JPQL запроса
+                .filter(pic -> pic.getPictureData().getData() != null)
                 .map(pic -> pic.getPictureData().getData());
     }
 
