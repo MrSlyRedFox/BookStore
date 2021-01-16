@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body class="bg-light">
+
+<th:block th:if="${error}">
+	<div th:replace="fragments/header :: alert"></div>
+</th:block>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="d-flex">
+	<div th:replace="fragments/sidebar :: sidebar"></div>
+	
+	<div class="content p-4">
+		<h2 class="mb-4" th:if="${edit}">Edit genre</h2>
+		<h2 class="mb-4" th:if="${create}">Create genre</h2>
+		
+		<form th:object="${genre}" method="post" th:action="@{/genre}">
+			<div class="card mb-4">
+				<div class="card-body">
+					<input th:type="hidden" th:field="*{genre_id}">
+					<div class="form-group">
+						<label for="name">Genre name</label>
+						<input th:field="*{name_Of_The_Genre}" type="text" class="form-control" id="name"
+						       placeholder="Enter genre name" required>
+					</div>
+				</div>
+				
+				<div class="card-footer bg-white">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</form>
+	
+	</div>
+</div>
+
+<script th:replace="fragments/footer :: scripts"></script>
+
+</body>
+</html>

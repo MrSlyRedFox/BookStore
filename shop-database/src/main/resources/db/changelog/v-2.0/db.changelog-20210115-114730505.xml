@@ -1,0 +1,37 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="mr_SlyRedFox (generated)" id="1610711257452-1">
+        <createTable tableName="pictures_data_tbl">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pictures_data_tblPK"/>
+            </column>
+            <column name="data" type="LONGBLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mr_SlyRedFox (generated)" id="1610711257452-2">
+        <createTable tableName="pictures_tbl">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pictures_tblPK"/>
+            </column>
+            <column name="content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_book_id" type="BIGINT"/>
+            <column name="picture_data_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mr_SlyRedFox (generated)" id="1610711257452-3">
+        <addUniqueConstraint columnNames="picture_data_id" constraintName="UK_fmf3tid3bncdq3ikbqmlh0h4i" tableName="pictures_tbl"/>
+    </changeSet>
+    <changeSet author="mr_SlyRedFox (generated)" id="1610711257452-4">
+        <addForeignKeyConstraint baseColumnNames="book_book_id" baseTableName="pictures_tbl" constraintName="FKaxbkla816vsrau4bbwrb5f5j9" deferrable="false" initiallyDeferred="false" referencedColumnNames="book_id" referencedTableName="books_tbl" validate="true"/>
+    </changeSet>
+    <changeSet author="mr_SlyRedFox (generated)" id="1610711257452-5">
+        <addForeignKeyConstraint baseColumnNames="picture_data_id" baseTableName="pictures_tbl" constraintName="FKj8wpvjsbfydbkg2rqditb8io8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="pictures_data_tbl" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
