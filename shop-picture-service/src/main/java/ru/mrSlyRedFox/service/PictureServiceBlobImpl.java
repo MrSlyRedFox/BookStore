@@ -3,9 +3,11 @@ package ru.mrSlyRedFox.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import ru.mrSlyRedFox.persist.model.Book;
 import ru.mrSlyRedFox.persist.model.Picture;
 import ru.mrSlyRedFox.persist.model.PictureData;
 import ru.mrSlyRedFox.persist.repo.PictureRepository;
@@ -41,5 +43,17 @@ public class PictureServiceBlobImpl implements PictureService {
     @Override
     public PictureData createPictureData(byte[] picture) {
         return new PictureData(picture);
+    }
+
+    @Override
+    public Optional<Book> getBookByPictureId(long id) {
+        return repository.findById(id)
+                .map(Picture::getBook);
+    }
+
+    @Override
+    @Transactional
+    public void removePicture(long id){
+        repository.deleteById(id);
     }
 }
