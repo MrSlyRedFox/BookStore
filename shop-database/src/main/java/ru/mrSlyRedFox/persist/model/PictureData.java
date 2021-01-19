@@ -24,15 +24,15 @@ public class PictureData {
     @Column(name = "data", length = 33554430) // для правильной hibernate-валидации в MySQL
     private byte[] data;
 
-//    @Column(name = "file_Name")
-//    private String fileName;
+    @Column(name = "file_Name")
+    private String fileName;
 
     public PictureData() {
     }
 
-//    public PictureData(String fileName) {
-//        this.fileName = fileName;
-//    }
+    public PictureData(String fileName) {
+        this.fileName = fileName;
+    }
 
     public PictureData(byte[] data) {
         this.data = data;
@@ -54,13 +54,11 @@ public class PictureData {
         this.data = data;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
 
-
-//    public String getFileName() {
-//        return fileName;
-//    }
-//
-//    public void setFileName(String fileName) {
-//        this.fileName = fileName;
-//    }
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 }

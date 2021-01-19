@@ -3,16 +3,18 @@ package ru.mrSlyRedFox.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import ru.mrSlyRedFox.persist.model.Book;
 import ru.mrSlyRedFox.persist.model.Picture;
 import ru.mrSlyRedFox.persist.model.PictureData;
 import ru.mrSlyRedFox.persist.repo.PictureRepository;
 
 
 @Service
-//@ConditionalOnProperty(name = "picture.storage.type", havingValue = "database")
+@ConditionalOnProperty(name = "picture.storage.type", havingValue = "database")
 public class PictureServiceBlobImpl implements PictureService {
 
     private final PictureRepository repository;
@@ -26,6 +28,7 @@ public class PictureServiceBlobImpl implements PictureService {
     public Optional<String> getPictureContentTypeById(long id) {
         return repository.findById(id)
                 // TODO перенести проверку на уровень JPQL запроса
+                .filter(pic -> pic.getPictureData().getData() != null)
                 .map(Picture::getContentType);
     }
 
@@ -33,11 +36,24 @@ public class PictureServiceBlobImpl implements PictureService {
     public Optional<byte[]> getPictureDataById(long id) {
         return repository.findById(id)
                 // TODO перенести проверку на уровень JPQL запроса
+                .filter(pic -> pic.getPictureData().getData() != null)
                 .map(pic -> pic.getPictureData().getData());
     }
 
     @Override
     public PictureData createPictureData(byte[] picture) {
         return new PictureData(picture);
+    }
+
+    @Override
+    public Optional<Book> getBookByPictureId(long id) {
+        return repository.findById(id)
+                .map(Picture::getBook);
+    }
+
+    @Override
+    @Transactional
+    public void removePicture(long id){
+        repository.deleteById(id);
     }
 }
