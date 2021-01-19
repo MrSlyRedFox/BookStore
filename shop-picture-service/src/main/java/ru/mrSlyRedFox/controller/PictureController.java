@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
+import ru.mrSlyRedFox.persist.model.Book;
 import ru.mrSlyRedFox.service.PictureService;
 
 
@@ -41,4 +43,13 @@ public class PictureController {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/{pictureId}")
+    public String deletePicture(@PathVariable("pictureId") Long pictureId) {
+        Book book = pictureService.getBookByPictureId(pictureId).get();
+        pictureService.removePicture(pictureId);
+        return "redirect:/book/" + book.getBook_id() + "/edit";
+    }
+
+
 }
